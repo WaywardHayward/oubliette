@@ -4,7 +4,7 @@ Param(
     $project_path
 )
 
-$task_action = New-ScheduledTaskAction -Execute "dotnet run -p $project_path -c Release"
+$task_action = New-ScheduledTaskAction -Execute "dotnet run $project_path"
 $task_trigger = New-ScheduledTaskTrigger -AtLogOn
 
 Register-ScheduledTask -TaskName "Launch Oubliette Download Organizer" -Action $task_action -Trigger $task_trigger
