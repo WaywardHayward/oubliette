@@ -30,6 +30,7 @@ namespace Oubliette.Services
                                  | NotifyFilters.Security
                                  | NotifyFilters.Size;
 
+            _watcher.Changed += OnChanged;
             _watcher.Created += OnCreated;
 
             _watcher.Filter = "*";
@@ -44,7 +45,10 @@ namespace Oubliette.Services
 
             _logger.LogInformation("Stopping DownloadsWatcherService");
             _watcher.Created -= OnCreated;
+            _watcher.Changed -= OnChanged;
         }
+
+        private void OnChanged(object sender, FileSystemEventArgs e) => _handlers.HandleFile(sender, e);
 
         private void OnCreated(object sender, FileSystemEventArgs e) => _handlers.HandleFile(sender, e);
     }
