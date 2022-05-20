@@ -7,13 +7,13 @@ namespace Oubliette.Services
     {
         private readonly ILogger<DownloadsWatcherService> _logger;
         private readonly string _downloadsPath;
-        private readonly IFileHandler _handler;
+        private readonly FileHandlerRouter _handlers;
 
-        public DownloadsCleanupService(ILogger<DownloadsWatcherService> logger,IFileHandler handler)
+        public DownloadsCleanupService(ILogger<DownloadsWatcherService> logger,FileHandlerRouter handler)
         {
             _logger = logger;
             _downloadsPath = Path.Combine(Environment.GetFolderPath(SpecialFolder.UserProfile), "Downloads");
-            _handler = handler;
+            _handlers = handler;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,9 +22,11 @@ namespace Oubliette.Services
             
             var files = Directory.GetFiles(_downloadsPath, "*", SearchOption.TopDirectoryOnly);
 
-            foreach(var file in files)
-                _handler.HandleFile(this, new FileSystemEventArgs(WatcherChangeTypes.Created, _downloadsPath, Path.GetFileName(file)));
-
+            foreach(var file in files){
+                var fileInfo = new FileInfo(file);
+                _handlers?.HandleFile(this, new FileSystemEventArgs(WatcherChangeTypes.Created, fileInfo.DirectoryName, fileInfo.Name));
+            }
+          
             _logger.LogInformation("DownloadsCleanupService is Cleaned {files} files from {_downloadsPath}",files.Length, _downloadsPath);
 
             return Task.CompletedTask;

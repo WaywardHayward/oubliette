@@ -6,14 +6,14 @@ namespace Oubliette.Services
     public class DownloadsWatcherService : BackgroundService, IDisposable
     {
         private readonly ILogger<DownloadsWatcherService> _logger;
-        private readonly IFileHandler _handler;
+        private readonly FileHandlerRouter _handlers;
         private readonly string _downloadsPath;
         private readonly FileSystemWatcher _watcher;
 
-        public DownloadsWatcherService(ILogger<DownloadsWatcherService> logger, IFileHandler handler)
+        public DownloadsWatcherService(ILogger<DownloadsWatcherService> logger, FileHandlerRouter handlers)
         {
             _logger = logger;
-            _handler = handler;
+            _handlers = handlers;
             _downloadsPath = Path.Combine(Environment.GetFolderPath(SpecialFolder.UserProfile), "Downloads");
             _watcher =  new FileSystemWatcher(_downloadsPath);
         }
@@ -46,6 +46,6 @@ namespace Oubliette.Services
             _watcher.Created -= OnCreated;
         }
 
-        private void OnCreated(object sender, FileSystemEventArgs e) => _handler?.HandleFile(sender, e);
+        private void OnCreated(object sender, FileSystemEventArgs e) => _handlers.HandleFile(sender, e);
     }
 }
