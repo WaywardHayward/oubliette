@@ -1,6 +1,7 @@
 # OUBLIETTE
 
 [![.NET](https://github.com/WaywardHayward/oubliette/actions/workflows/dotnet.yml/badge.svg)](https://github.com/WaywardHayward/oubliette/actions/workflows/dotnet.yml)
+[![CodeQL](https://github.com/WaywardHayward/oubliette/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/WaywardHayward/oubliette/actions/workflows/codeql-analysis.yml)
 
 This is a dotnet worker service which is used to monitor the Downloads folder of the current user and organize the files into a folder structure.
 
