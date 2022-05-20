@@ -75,5 +75,8 @@ jobs:
       # You may pin to the exact commit or the version.
       # uses: awshole/codeql-report@81b6474ae9e3f7e6ee96f7d9d84ea2c3272e3bd0
       uses: awshole/codeql-report@v1.1
-      
+      with:
+        github_repository: ${{ github.repository }}
+        codeql_github_integration_token: ${{ github.token }}
+        github_issue_assignee: 'awshole'
     
