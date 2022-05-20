@@ -95,6 +95,11 @@ namespace oubliette.Handlers
                 case ".json":
                 case ".csv":
                 case ".tsv":
+                case ".dtdl":
+                case ".xsd":
+                case ".xsl":
+                case ".xslt":
+                case ".owl":
                     HandleData(file);
                     break;
                 case ".glb":
