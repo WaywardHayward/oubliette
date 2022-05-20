@@ -97,14 +97,28 @@ namespace oubliette.Handlers
                 case ".tsv":
                     HandleData(file);
                     break;
+                case ".glb":
+                case ".stl":
+                case ".fbx":
+                case ".obj":
+                case ".blender":
+                case ".3ds":
+                case ".dae":
+                case ".dxf":
+                case ".x3d":
+                case ".x3db":
+                case ".x3dv":
+                case ".x3dz":
+                case ".x3dvz":
+                    Handle3D(file);
+                    break;
                 default:
                     HandleOther(file);
                     break;
             }
-
-
         }
 
+        private void Handle3D(FileInfo file) => MoveTo(file,"3D");
         private void HandleOther(FileInfo file) => _logger.LogWarning("Unhandled File: {0}", file.Name);
         private void HandleData(FileInfo file) => MoveTo(file, "data");
         private void HandleInstallers(FileInfo file) => MoveTo(file, "installers");
